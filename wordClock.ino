@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <PCF8583.h>
 #include <HL1606strip.h>
+#include <String.h>
 #include "Matrice10x11RubanLed.h"
 /*****************************************************************************
 
@@ -16,6 +17,7 @@
 int correct_address = 0;
 PCF8583 rtc (0xA0);
 Matrice10x11 horloge;
+
 	
 void setup(void){
   Serial.begin(9600);
@@ -49,7 +51,7 @@ void loop(void){
 	  rtc.year, rtc.month, rtc.day, rtc.hour, rtc.minute, rtc.second);
   Serial.println(time);*/
   delay(1000);
-  horloge.rainbowParty(10);
+ 
 /*for(int i =0;i<24;i++){
    for(int j=0;j<60;j++){
     Serial.print(i);
@@ -67,43 +69,46 @@ void loop(void){
 
 
 void gestionHeureMot(byte heure,byte minute,byte seconde){
- Serial.print("IL EST ");
+ String textOut;
+  Serial.print("IL EST ");
+  textOut = "IL EST ";
  //cas des heures
  if (minute >= 35){heure++;} //cas des heure du genre 8 h mois ving cinq moins le quart etc
  byte heure12 = heure%12; //conversion 24h en 12h
- if (heure12==1){Serial.print("UNE ");}
- if (heure12==2){Serial.print("DEUX ");}
- if (heure12==3){Serial.print("TROIS ");}
- if (heure12==4){Serial.print("QUATRE ");}
- if (heure12==5){Serial.print("CINQ ");}
- if (heure12==6){Serial.print("SIX ");}
- if (heure12==7){Serial.print("SEPT ");}
- if (heure12==8){Serial.print("HUIT ");}
- if (heure12==9){Serial.print("NEUF ");}
- if (heure12==10){Serial.print("DIX ");}
- if (heure12==11){Serial.print("ONZE ");}
+ if (heure12==1){Serial.print("UNE ");textOut += "UNE ";}
+ if (heure12==2){Serial.print("DEUX ");textOut += "DEUX ";}
+ if (heure12==3){Serial.print("TROIS ");textOut += "TROIS ";}
+ if (heure12==4){Serial.print("QUATRE ");textOut += "QUATRE ";}
+ if (heure12==5){Serial.print("CINQ ");textOut += "CINQ ";}
+ if (heure12==6){Serial.print("SIX ");textOut += "SIX ";}
+ if (heure12==7){Serial.print("SEPT ");textOut += "SEPT ";}
+ if (heure12==8){Serial.print("HUIT ");textOut += "HUIT ";}
+ if (heure12==9){Serial.print("NEUF ");textOut += "NEUF";}
+ if (heure12==10){Serial.print("DIX ");textOut += "DIX ";}
+ if (heure12==11){Serial.print("ONZE ");textOut += "ONZE ";}
  
- if (heure==12){Serial.print("MIDI ");}
- if (heure==0 || heure==24){Serial.print("MINUIT ");}
+ if (heure==12){Serial.print("MIDI ");textOut += "MIDI ";}
+ if (heure==0 || heure==24){Serial.print("MINUIT ");textOut += "MINUIT ";}
  
- if ( heure!=0 && heure != 12 && heure !=24 && heure12 !=1){Serial.print("HEURES ");}
+ if ( heure!=0 && heure != 12 && heure !=24 && heure12 !=1){Serial.print("HEURES ");textOut += "HEURES ";}
 
- if (heure12==1){Serial.print("HEURE ");}
+ if (heure12==1){Serial.print("HEURE ");textOut += "HEURE ";}
  //cas des minutes
  
- if (minute < 5){Serial.println("");}
- if (minute >= 5 && minute < 10){Serial.println("CINQ");}
- if (minute >= 10 && minute < 15){Serial.println("DIX");}
- if (minute >= 15 && minute < 20){Serial.println("ET QUART");}
- if (minute >= 20 && minute < 25){Serial.println("VINGT");}
- if (minute >= 25 && minute < 30){Serial.println("VINGT-CINQ");}
- if (minute >= 30 && minute < 35){Serial.println("ET DEMI");}
- if (minute >= 35 && minute < 40){Serial.println("MOINS VINGT CINQ");}
- if (minute >= 40 && minute < 45){Serial.println("MOINS VINGT");}
- if (minute >= 45 && minute < 50){Serial.println("MOINS LE QUART");}
- if (minute >= 50 && minute < 55){Serial.println("MOINS DIX");}
- if (minute >= 55 && minute < 60){Serial.println("MOINS CINQ");}
+ if (minute < 5){Serial.println("");textOut += "";}
+ if (minute >= 5 && minute < 10){Serial.println("CINQ");textOut += "CINQ";}
+ if (minute >= 10 && minute < 15){Serial.println("DIX");textOut += "DIX";}
+ if (minute >= 15 && minute < 20){Serial.println("ET QUART");textOut += "ET QUART";}
+ if (minute >= 20 && minute < 25){Serial.println("VINGT");textOut += "VINGT";}
+ if (minute >= 25 && minute < 30){Serial.println("VINGT-CINQ");textOut += "VINGT CINQ";}
+ if (minute >= 30 && minute < 35){Serial.println("ET DEMI");textOut += "ET DEMI";}
+ if (minute >= 35 && minute < 40){Serial.println("MOINS VINGT CINQ");textOut += "MOINS VINGT CINQ";}
+ if (minute >= 40 && minute < 45){Serial.println("MOINS VINGT");textOut += "MOINS VINGT";}
+ if (minute >= 45 && minute < 50){Serial.println("MOINS LE QUART");textOut += "MOINS LE QUART";}
+ if (minute >= 50 && minute < 55){Serial.println("MOINS DIX");textOut += "MOINS DIX";}
+ if (minute >= 55 && minute < 60){Serial.println("MOINS CINQ");textOut += "MOINS CINQ";}
  
+ horloge.affChaineMatrixScroll("IL EST CINQ HEURES VINGT",30,COULBLANCHE);
 }
 
 
