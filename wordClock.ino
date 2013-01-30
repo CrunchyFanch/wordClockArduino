@@ -4,13 +4,12 @@
 #include <HL1606strip.h>
 #include "Matrice10x11RubanLed.h"
 /*****************************************************************************
- *  read/write serial interface to PCF8583 RTC via I2C interface
+
  *
  *  Arduino analog input 5 - I2C SCL (PCF8583 pin 6)
  *  Arduino analog input 4 - I2C SDA (PCF8583 pin 5)
  *
- *  You can set the type by sending it YYMMddhhmmss;
- *  the semicolon on the end tells it you're done...
+ *  Changement de l'heure par port serie en respectant YYMMddhhmmss;
  *
  ******************************************************************************/
 
@@ -50,6 +49,7 @@ void loop(void){
 	  rtc.year, rtc.month, rtc.day, rtc.hour, rtc.minute, rtc.second);
   Serial.println(time);*/
   delay(1000);
+  horloge.rainbowParty(10);
 /*for(int i =0;i<24;i++){
    for(int j=0;j<60;j++){
     Serial.print(i);
