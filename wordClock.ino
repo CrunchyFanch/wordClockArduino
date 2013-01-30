@@ -1,6 +1,8 @@
 #include <Wire.h> // necessary, or the application won't build properly
 #include <stdio.h>
 #include <PCF8583.h>
+#include <HL1606strip.h>
+#include "Matrice10x11RubanLed.h"
 /*****************************************************************************
  *  read/write serial interface to PCF8583 RTC via I2C interface
  *
@@ -13,7 +15,9 @@
  ******************************************************************************/
 
 int correct_address = 0;
-PCF8583 rtc (0xA0);	
+PCF8583 rtc (0xA0);
+Matrice10x11 horloge;
+	
 void setup(void){
   Serial.begin(9600);
   Serial.print("booting...");
