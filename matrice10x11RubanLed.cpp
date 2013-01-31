@@ -272,12 +272,18 @@ HL1606strip strip = HL1606strip(STRIP_D, STRIP_L, STRIP_C, 110);
 void Matrice10x11::setLedXYMatrix(int col, int row, int couleur){
 
     //cas des lignes impaires 
-    int n = row*10+col;
+/*    int n = row*10+col;
     if ((row%2) != 0){
       n = ((row+1)*10-col-1);
     }
+    strip.setLEDcolor(n,couleur);*/
+    int n; //mappage pour faire 11 colonne
+    if (col%2 == 0){
+      n=(100-10*(col)) + row;
+    }else{
+      n=(100-10*(col-1))-1-row; 
+    }  
     strip.setLEDcolor(n,couleur);
-
 }
 
 void Matrice10x11::setSegmentMatrix(int coldeb, int rowdeb,int longeur, int couleur){
@@ -329,7 +335,7 @@ void Matrice10x11::affLettreMatrix (const byte c,int couleur){
  int cpt2 = 0;
  char temp[300];
  
- 
+ str += ' ';
  while(c = str.charAt(cpt2)){
    
    for (byte col = 0; col < 8; col++){
@@ -339,9 +345,9 @@ void Matrice10x11::affLettreMatrix (const byte c,int couleur){
    cpt2++;
  }
  
- for(i=0;i<(cpt-7);i++){
+ for(i=0;i<(cpt-8);i++){
  
-     for (j=0;j<10;j++){
+     for (j=0;j<9;j++){
       
        setLigneBitMatrix(j,temp[i+j],couleur);
        
