@@ -29,12 +29,12 @@
     {
       public:
 
-          Matrice10x11();
+          Matrice10x11(); //constructeur
         void setLedXYMatrix(int col, int row, int couleur);
 		void setSegmentMatrix(int coldeb, int rowdeb,int longeur, int couleur);
 		void setLigneBitMatrix(const byte col, const byte data,int couleur);
 		void affLettreMatrix (const byte c,int couleur);
-		void affChaineMatrix(const char * s, const unsigned long time,int couleur);
+		void affChaineMatrix(String str, const unsigned long time,int couleur);
 		void affChaineMatrixScroll(String str, const unsigned long time,int couleur);
 		void rainbowParty(uint8_t wait);
 		void stripOff(void);

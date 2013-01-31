@@ -308,15 +308,17 @@ void Matrice10x11::affLettreMatrix (const byte c,int couleur){
     setLigneBitMatrix(col + 1, pgm_read_byte (&cp437_font [c] [col]),couleur);
  }  // end of letter
  
- void Matrice10x11::affChaineMatrix(const char * s, const unsigned long time,int couleur){
+ void Matrice10x11::affChaineMatrix(String str, const unsigned long time,int couleur){
   char c;
-  while (c = *s++)
+  int cpt = 0;
+  while (c = str.charAt(cpt))
     {
     affLettreMatrix(c,couleur);
    strip.writeStrip(); 
     delay (time);
     affLettreMatrix(' ',couleur);  // brief gap between letters
-    delay (10);      
+    delay (10);
+    cpt++;    
     }
 }  
 
@@ -326,6 +328,7 @@ void Matrice10x11::affLettreMatrix (const byte c,int couleur){
  int cpt = 0;
  int cpt2 = 0;
  char temp[300];
+ 
  
  while(c = str.charAt(cpt2)){
    
