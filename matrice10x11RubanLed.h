@@ -35,7 +35,7 @@
 		void setLigneBitMatrix(const byte col, const byte data,int couleur);
 		void affLettreMatrix (const byte c,int couleur);
 		void affChaineMatrix(const char * s, const unsigned long time,int couleur);
-		void affChaineMatrixScroll(const char * s, const unsigned long time,int couleur);
+		void affChaineMatrixScroll(String str, const unsigned long time,int couleur);
 		void rainbowParty(uint8_t wait);
 		void stripOff(void);
 		void chaseSingle(uint8_t color, uint8_t wait);

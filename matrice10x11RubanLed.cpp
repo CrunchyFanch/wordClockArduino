@@ -327,7 +327,7 @@ void Matrice10x11::affLettreMatrix (const byte c,int couleur){
  int cpt2 = 0;
  char temp[300];
  
- while(c = str.charAt(cpt2){
+ while(c = str.charAt(cpt2)){
    
    for (byte col = 0; col < 8; col++){
      temp[cpt]=pgm_read_byte (&cp437_font [c] [col]);

@@ -108,7 +108,7 @@ void gestionHeureMot(byte heure,byte minute,byte seconde){
  if (minute >= 50 && minute < 55){Serial.println("MOINS DIX");textOut += "MOINS DIX";}
  if (minute >= 55 && minute < 60){Serial.println("MOINS CINQ");textOut += "MOINS CINQ";}
  
- horloge.affChaineMatrixScroll("IL EST CINQ HEURES VINGT",30,COULBLANCHE);
+ horloge.affChaineMatrixScroll(textOut,30,COULBLANCHE);
 }
 
 
