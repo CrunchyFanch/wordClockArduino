@@ -320,14 +320,14 @@ void Matrice10x11::affLettreMatrix (const byte c,int couleur){
     }
 }  
 
- void Matrice10x11::affChaineMatrixScroll(const char * s, const unsigned long time,int couleur){
+ void Matrice10x11::affChaineMatrixScroll(String str, const unsigned long time,int couleur){
  char c;
  int i,j;
  int cpt = 0;
  int cpt2 = 0;
  char temp[300];
  
- while(c = *s++){
+ while(c = str.charAt(cpt2){
    
    for (byte col = 0; col < 8; col++){
      temp[cpt]=pgm_read_byte (&cp437_font [c] [col]);
