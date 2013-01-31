@@ -37,7 +37,8 @@ void setup(void){
   Serial.begin(9600);
   Serial.print("booting...");
   Serial.println(" done");
-
+/*for(int i=0;i<10;i++){horloge.setSegmentMatrix(0,i,11,COULEURMOT);} remplissage de toutes les leds
+horloge.affMatrice();*/
 }
 
 
@@ -46,22 +47,23 @@ void loop(void){
 
 
 
-//  rtc.get_time();
+  rtc.get_time();
   miseALHeure();
-//  gestionHeureMot(rtc.hour,rtc.minute,rtc.second);
+  gestionHeureMot(rtc.hour,rtc.minute,rtc.second);
   delay(1000);
 
  
-for(int i =0;i<24;i++){
+/*for(int i =0;i<24;i++){
    for(int j=0;j<60;j++){
     Serial.print(i);
     Serial.print(':');
     Serial.println(j);
     gestionHeureMot(i,j,0);
-    delay(100);  
+    delay(500);  
  } 
  
-}  
+} */ 
+
 }
 
  
@@ -143,7 +145,11 @@ void gestionHeureMot(byte heure,byte minute,byte seconde){
 // horloge.affChaineMatrixScroll(textOut,30,COULBLEUE);
   if (textOut != bufString) //detecte si il y a eu un changement d'heure (evite l'effacement de la matrice toute les secondes)
   {
+   
     bufString = textOut;
+    //horloge.colorWipe(COULJAUNE,10);
+    horloge.stripOff();
+    horloge.affChaineMatrixScroll("Denis as tu arrété de fumer?",30,COULBLEUE);
     horloge.stripOff();
   }
   horloge.affMatrice();
