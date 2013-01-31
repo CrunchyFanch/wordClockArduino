@@ -40,6 +40,7 @@
 		void stripOff(void);
 		void chaseSingle(uint8_t color, uint8_t wait);
 		void colorWipe(uint8_t color, uint8_t wait);
+                void affMatrice(void);
       private:
 
 

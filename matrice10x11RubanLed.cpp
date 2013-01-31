@@ -428,4 +428,8 @@ void Matrice10x11::colorWipe(uint8_t color, uint8_t wait) {
   }
 }
 
+void Matrice10x11::affMatrice(void){
+    strip.writeStrip(); 
+}
+
 
