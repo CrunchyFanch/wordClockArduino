@@ -1,4 +1,4 @@
-#include <Wire.h> // necessary, or the application won't build properly
+#include <Wire.h> 
 #include <stdio.h>
 #include <PCF8583.h>
 #include <HL1606strip.h>
@@ -13,7 +13,7 @@
  *  Changement de l'heure par port serie en respectant YYMMddhhmmss;
  *
  ******************************************************************************/
-/*MATRICE
+/*MATRICE 
 
 ILNESTODEUX
 QUATRETROIS
@@ -27,6 +27,25 @@ VINGT-CINQU
 ETSDEMIEPAM */
 
 #define COULEURMOT COULTURQUOISE
+
+prog_char string_0[] PROGMEM = "String 0";  
+prog_char string_1[] PROGMEM = "String 1";
+prog_char string_2[] PROGMEM = "String 2";
+prog_char string_3[] PROGMEM = "String 3";
+prog_char string_4[] PROGMEM = "String 4";
+prog_char string_5[] PROGMEM = "String 5";
+PROGMEM const char *string_table[] = 	   
+{   
+  string_0,
+  string_1,
+  string_2,
+  string_3,
+  string_4,
+  string_5 };
+
+
+char buffer[30];
+
 int correct_address = 0;
 PCF8583 rtc (0xA0);
 Matrice10x11 horloge;
@@ -39,6 +58,14 @@ void setup(void){
   Serial.println(" done");
 /*for(int i=0;i<10;i++){horloge.setSegmentMatrix(0,i,11,COULEURMOT);} remplissage de toutes les leds
 horloge.affMatrice();*/
+  for (int i = 0; i < 6; i++)
+  {
+    strcpy_P(buffer, (char*)pgm_read_word(&(string_table[i]))); // Necessary casts and dereferencing, just copy. 
+      
+    horloge.affChaineMatrixScroll(String(buffer) ,30,COULBLEUE);
+    horloge.affMatrice();
+  }
+
 }
 
 
