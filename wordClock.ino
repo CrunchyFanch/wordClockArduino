@@ -80,26 +80,23 @@ void loop(void){
 
   rtc.get_time();
   miseALHeure();
+  affHeureSerial();
   boolean changement = gestionHeureMot(rtc.hour,rtc.minute,rtc.second);
   if (changement){   
     testDatesSpeciales(rtc.day, rtc.month);
   }
+ 
   delay(1000);
 
- 
-/*for(int i =0;i<24;i++){ //test de tout les affichages possible (emulation de l'heure tout les 500ms
+}
+
+ /*for(int i =0;i<24;i++){ //test de tout les affichages possible (emulation de l'heure tout les 500ms
    for(int j=0;j<60;j++){
     Serial.print(i);
     Serial.print(':');
     Serial.println(j);
     gestionHeureMot(i,j,0);
-    delay(500);  
- } 
- 
-} */ 
-
-}
-
+    delay(500);  */
  
 
 /*MATRICE
@@ -118,8 +115,14 @@ VINGT-CINQU8
 ETSDEMIEPAM9 */
 
 
-//fonction de mise a l'heure par la fonction read port serie
-void miseALHeure(void){
+void affHeureSerial(){
+  char time[50];
+  sprintf(time, "%02d/%02d/%02d %02d:%02d:%02d",
+	  rtc.year, rtc.month, rtc.day, rtc.hour, rtc.minute, rtc.second);
+  Serial.println(time);
+
+}
+void miseALHeure(void){ ///fonction de mise a l'heure par la fonction read port serie
   if(Serial.available() > 0){
        rtc.year= (byte) ((Serial.read() - 48) *10 +  (Serial.read() - 48)) + 2000;
        rtc.month = (byte) ((Serial.read() - 48) *10 +  (Serial.read() - 48));
@@ -136,7 +139,7 @@ void miseALHeure(void){
 }
 
 boolean gestionHeureMot(byte heure,byte minute,byte seconde){
- String textOut;
+ String textOut = "";
     
   Serial.print("IL EST ");horloge.setSegmentMatrix(0,0,2,COULEURMOT);horloge.setSegmentMatrix(3,0,3,COULEURMOT);
   textOut = "IL EST ";
@@ -178,9 +181,7 @@ boolean gestionHeureMot(byte heure,byte minute,byte seconde){
  
 // horloge.affChaineMatrixScroll(textOut,30,COULBLEUE);
   if (textOut != bufString) {//detecte si il y a eu un changement d'heure (evite l'effacement de la matrice toute les secondes)
-   bufString = textOut;
-   horloge.stripOff();
-   horloge.affMatrice();
+   bufString = textOut; 
    return 1;
   }
   horloge.affMatrice();
