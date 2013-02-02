@@ -28,12 +28,13 @@ ETSDEMIEPAM */
 
 #define COULEURMOT COULTURQUOISE
 
-prog_char string_0[] PROGMEM = "String 0";  
-prog_char string_1[] PROGMEM = "String 1";
-prog_char string_2[] PROGMEM = "String 2";
-prog_char string_3[] PROGMEM = "String 3";
-prog_char string_4[] PROGMEM = "String 4";
-prog_char string_5[] PROGMEM = "String 5";
+prog_char string_0[] PROGMEM = "Bon anniversaire DENIS !!!! as tu pensé a arreter de fumer?";  
+prog_char string_1[] PROGMEM = "Bon anniversaire BENE";
+prog_char string_2[] PROGMEM = "Bon anniversaire OSCAR!!";
+prog_char string_3[] PROGMEM = "Bon anniversaire ANDREEA!!";
+prog_char string_4[] PROGMEM = "Bon anniversaire FRANCOIS!!";
+prog_char string_5[] PROGMEM = "Joyeux Noel!!";
+
 PROGMEM const char *string_table[] = 	   
 {   
   string_0,
@@ -44,7 +45,18 @@ PROGMEM const char *string_table[] =
   string_5 };
 
 
-char buffer[30];
+const int datesSpeciales[] = {            
+    // Jour, Mois 
+    13,6,      
+    11,9,      
+    23,1,      
+    27,4,      
+    27,12,      
+    25,12,
+    0,0,  //pour arreter le parsing du tableau de date    
+};
+
+char buffer[200];
 
 int correct_address = 0;
 PCF8583 rtc (0xA0);
@@ -56,15 +68,7 @@ void setup(void){
   Serial.begin(9600);
   Serial.print("booting...");
   Serial.println(" done");
-/*for(int i=0;i<10;i++){horloge.setSegmentMatrix(0,i,11,COULEURMOT);} remplissage de toutes les leds
-horloge.affMatrice();*/
-  for (int i = 0; i < 6; i++)
-  {
-    strcpy_P(buffer, (char*)pgm_read_word(&(string_table[i]))); // Necessary casts and dereferencing, just copy. 
-      
-    horloge.affChaineMatrixScroll(String(buffer) ,30,COULBLEUE);
-    horloge.affMatrice();
-  }
+
 
 }
 
@@ -76,11 +80,14 @@ void loop(void){
 
   rtc.get_time();
   miseALHeure();
-  gestionHeureMot(rtc.hour,rtc.minute,rtc.second);
+  boolean changement = gestionHeureMot(rtc.hour,rtc.minute,rtc.second);
+  if (changement){   
+    testDatesSpeciales(rtc.day, rtc.month);
+  }
   delay(1000);
 
  
-/*for(int i =0;i<24;i++){
+/*for(int i =0;i<24;i++){ //test de tout les affichages possible (emulation de l'heure tout les 500ms
    for(int j=0;j<60;j++){
     Serial.print(i);
     Serial.print(':');
@@ -128,7 +135,7 @@ void miseALHeure(void){
   }
 }
 
-void gestionHeureMot(byte heure,byte minute,byte seconde){
+boolean gestionHeureMot(byte heure,byte minute,byte seconde){
  String textOut;
     
   Serial.print("IL EST ");horloge.setSegmentMatrix(0,0,2,COULEURMOT);horloge.setSegmentMatrix(3,0,3,COULEURMOT);
@@ -170,16 +177,30 @@ void gestionHeureMot(byte heure,byte minute,byte seconde){
  if (minute >= 55 && minute < 60){Serial.println("MOINS CINQ");textOut += "MOINS CINQ";horloge.setSegmentMatrix(0,6,5,COULEURMOT);horloge.setSegmentMatrix(6,8,4,COULEURMOT);}
  
 // horloge.affChaineMatrixScroll(textOut,30,COULBLEUE);
-  if (textOut != bufString) //detecte si il y a eu un changement d'heure (evite l'effacement de la matrice toute les secondes)
-  {
-   
-    bufString = textOut;
-    //horloge.colorWipe(COULJAUNE,10);
-    horloge.stripOff();
-    horloge.affChaineMatrixScroll("Denis as tu arrété de fumer?",30,COULBLEUE);
-    horloge.stripOff();
+  if (textOut != bufString) {//detecte si il y a eu un changement d'heure (evite l'effacement de la matrice toute les secondes)
+   bufString = textOut;
+   horloge.stripOff();
+   horloge.affMatrice();
+   return 1;
   }
   horloge.affMatrice();
+  return 0;
 }
 
+void testDatesSpeciales(int jour, int mois){
+  for (int i=0; datesSpeciales[i] > 0; i+=2){ 
+    if (datesSpeciales[i] == jour && datesSpeciales[i+1] == mois){ // test si aujourdhui est un jour particulier
+              
+         horloge.stripOff();
+         horloge.rainbowParty(80);
+         horloge.stripOff();
+         strcpy_P(buffer, (char*)pgm_read_word(&(string_table[i/2]))); // Necessary casts and dereferencing, just copy.  
+         horloge.affChaineMatrixScroll(String(buffer) ,30,COULROUGE);
+         horloge.affMatrice(); 
+         horloge.rainbowParty(80);
+         horloge.stripOff();
+    }
+  }
+    
 
+}
